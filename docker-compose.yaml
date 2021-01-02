@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  phonebook-mysql:
+    container_name: phonebook-mysql
+    build:
+      context: .
+      dockerfile: Dockerfile-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: senha
+      MYSQL_USER: root
+      MYSQL_PASSWORD: senha
+      MYSQL_DATABASE: banco
+    networks:
+      - minharede-network
+  phonebook-app:
+    container_name: phonebook-app
+    build:
+      context: .
+      dockerfile: Dockerfile-app
+    depends_on:
+      - phonebook-mysql
+    ports:
+      - "5000:5000"
+    networks:
+      - minharede-network
+networks:
+    minharede-network:
+        driver: bridge
+ 
